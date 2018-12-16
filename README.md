@@ -5,6 +5,7 @@ This is a PyTorch implementation of the DrQA system described in the ACL 2017 pa
 
 - [About](#machine-reading-at-scale)
 - [Demo](#quick-start-demo)
+- [Server](#http-server-for-drqa-content)
 - [Installation](#installing-drqa)
 - [Components](#drqa-components)
 
@@ -94,6 +95,21 @@ Roy Halladay pitched a no-hitter on October 6, 2010.
 ```
 
 Try some of your own! Of course, DrQA might provide alternative facts, so enjoy the ride.
+
+## HTTP Server for DrQA Content 
+[Install](#installing-drqa) DrQA and [download](#trained-models-and-data) our models to start asking open-domain questions!
+
+Run `python3 scripts/pipeline/server.py` to start the server. The server waits to be given a question as a query parameter.
+
+The default port is 80 but it can be changed by giving a command-line argument. Example:
+`python3 scripts/pipeline/server.py 5000` would use the port 5000.
+
+Pass your question for DrQA as a query parameter.
+The query parameter does not need to be URL encoded but it is recommended. Examples below are encoded. 
+Example Browser: localhost?question=What%20is%20Bambi?
+Example CURL: curl -X GET 'http://localhost?question=What%20is%20Bambi?'  
+
+The answer will be displayed in json format. 
 
 ## Installing DrQA
 
