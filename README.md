@@ -101,8 +101,8 @@ Try some of your own! Of course, DrQA might provide alternative facts, so enjoy 
 
 Run `python3 scripts/pipeline/server.py` to start the server. The server waits to be given a question as a query parameter.
 
-The default port is 80 but it can be changed by giving a command-line argument. 
-To use port 5000 run `python3 scripts/pipeline/server.py 5000`.
+The default port is 5000 but it can be changed by giving a command-line argument. 
+To use port 5001 run `python3 scripts/pipeline/server.py 5001`.
 
 Pass your question for DrQA as a query parameter.
 The query parameter does not need to be URL encoded but it is recommended. Examples below are encoded. 
