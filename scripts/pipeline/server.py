@@ -16,8 +16,10 @@ class S(BaseHTTPRequestHandler):
     def do_GET(self):
         self._set_headers()
         query_components = parse_qs(urlparse(self.path).query)
+        print(query_components)
         question = ''.join(query_components["question"])
         answers = DrQA.process(question, top_n=3)
+        print(answers)
         json_payload = json.dumps({"answers": answers})
         self.wfile.write(bytes(json_payload, encoding="utf-8"))
 
@@ -39,6 +41,7 @@ if __name__ == "__main__":
         cuda=False,
         tokenizer='spacy'
     )
+    print("DrQA instantiated!")
 
     if len(argv) == 2:
         run(port=int(argv[1]))
