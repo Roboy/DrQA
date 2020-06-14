@@ -276,13 +276,14 @@ class DocReader(object):
         self.network.eval()
 
         # Transfer to GPU
-        if self.use_cuda:
-            inputs = [e if e is None else
-                      Variable(e.cuda(async=True), volatile=True)
-                      for e in ex[:5]]
-        else:
-            inputs = [e if e is None else Variable(e, volatile=True)
-                      for e in ex[:5]]
+        with torch.no_grad():
+            if self.use_cuda:
+                inputs = [e if e is None else
+                          Variable(e.cuda(async=True))
+                          for e in ex[:5]]
+            else:
+                inputs = [e if e is None else Variable(e)
+                          for e in ex[:5]]
 
         # Run forward
         score_s, score_e = self.network(*inputs)
@@ -292,16 +293,16 @@ class DocReader(object):
         score_e = score_e.data.cpu()
         if candidates:
             args = (score_s, score_e, candidates, top_n, self.args.max_len)
-            if async_pool:
-                return async_pool.apply_async(self.decode_candidates, args)
-            else:
-                return self.decode_candidates(*args)
+            # if async_pool:
+            #     return async_pool.apply_async(self.decode_candidates, args)
+            # else:
+            return self.decode_candidates(*args)
         else:
             args = (score_s, score_e, top_n, self.args.max_len)
-            if async_pool:
-                return async_pool.apply_async(self.decode, args)
-            else:
-                return self.decode(*args)
+            # if async_pool:
+            #     return async_pool.apply_async(self.decode, args)
+            # else:
+            return self.decode(*args)
 
     @staticmethod
     def decode(score_s, score_e, top_n=1, max_len=None):
